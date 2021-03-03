@@ -34,6 +34,7 @@
 <script>
 {foreach from=$order_products item=product}
 
+	{if ($product.id_product_attribute == 0)}
 		{literal}
 			skroutz_analytics('ecommerce', 'addItem', JSON.stringify({
 			order_id:   '{/literal}{$order->id}{literal}',                  // Order ID. Required.
@@ -43,6 +44,16 @@
 			quantity:   '{/literal}{$product.product_quantity}{literal}'         // Quantity of Items. Required.
 	  		}));
 	  	{/literal}
+	{else}
+		{literal}
+				skroutz_analytics('ecommerce', 'addItem', JSON.stringify({
+				order_id:   '{/literal}{$order->id}{literal}',                  // Order ID. Required.
+				product_id: '{/literal}{$product.id_product}-{$product.product_attribute_id}{literal}',              // Product ID. Required.
+				name:       '{/literal}{$product.product_name}{literal}',            // Product Name. Required.
+				price:      '{/literal}{$product.product_price_wt}{literal}',    // Price per Unit. Required.
+				quantity:   '{/literal}{$product.product_quantity}{literal}'         // Quantity of Items. Required.
+				}));
+			{/literal}
 
 {/foreach}
 </script>
